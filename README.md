@@ -16,4 +16,4 @@ Our project models the function of an autonomous mop robot that cleans floors us
 ## 🚀 How to run
 1. Clone the repository
 2. Run the Python file for each search algorithm
-3. Check results folder for output
+3. Check results folder for visual output
