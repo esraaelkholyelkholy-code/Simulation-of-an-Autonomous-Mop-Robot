@@ -1,7 +1,6 @@
 import pygame
 import sys
 
-# --- SETTINGS ---
 WIDTH, HEIGHT = 700, 700
 ROWS, COLS = 25, 25 
 CELL_SIZE = WIDTH // COLS
@@ -10,17 +9,16 @@ FPS = 60
 COLOR_DIRTY = (100, 100, 100)
 COLOR_CLEAN = (236, 240, 241)
 COLOR_WALL  = (44, 62, 80)
-COLOR_ROBOT = (155, 89, 182) # DFS Purple
+COLOR_ROBOT = (155, 89, 182)
 WHITE       = (255, 255, 255)
 
-# --- TRUE DFS SEARCH ---
 def dfs_search(grid, start, goal):
     rows, cols = len(grid), len(grid[0])
     stack = [start]
     came_from = {start: None}
 
     while stack:
-        current = stack.pop() # LIFO behavior
+        current = stack.pop()
 
         if current == goal:
             path = []
@@ -29,7 +27,6 @@ def dfs_search(grid, start, goal):
                 current = came_from[current]
             return path[::-1][1:]
 
-        # Standard DFS traversal (no sorting)
         for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             neighbor = (current[0] + dr, current[1] + dc)
             if 0 <= neighbor[0] < rows and 0 <= neighbor[1] < cols:
@@ -43,14 +40,12 @@ def generate_systematic_path(grid, start):
     visited = set()
     full_path = []
     current_pos = start
-    # Collect all reachable floor tiles
     to_clean = [(r, c) for r in range(rows) for c in range(cols) if grid[r][c] == 0]
     
     while len(visited) < len(to_clean):
         unvisited = [p for p in to_clean if p not in visited]
         if not unvisited: break
         
-        # To show true DFS, we pick the next tile in the list rather than the nearest
         target = unvisited[0]
         
         segment = dfs_search(grid, current_pos, target)
@@ -63,7 +58,6 @@ def generate_systematic_path(grid, start):
             visited.add(target) 
     return full_path
 
-# --- YOUR ORIGINAL OBSTACLES ---
 def create_room(grid):
     for r in range(ROWS): grid[r][0] = grid[r][COLS-1] = 1
     for c in range(COLS): grid[0][c] = grid[ROWS-1][c] = 1
@@ -107,7 +101,6 @@ def main():
         else:
             curr_pos = path[-1]
 
-        # DRAWING
         win.fill(COLOR_DIRTY)
         for r in range(ROWS):
             for c in range(COLS):
@@ -121,7 +114,6 @@ def main():
         rx, ry = curr_pos[1] * CELL_SIZE, curr_pos[0] * CELL_SIZE
         pygame.draw.circle(win, COLOR_ROBOT, (rx + CELL_SIZE//2, ry + CELL_SIZE//2), CELL_SIZE//2 - 2)
 
-        # UI HEADER
         pygame.draw.rect(win, COLOR_WALL, (0, 0, WIDTH, 40))
         floor_tiles = sum(row.count(0) for row in grid)
         progress = (len(cleaned) / floor_tiles) * 100
@@ -133,4 +125,5 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
+
     main()
