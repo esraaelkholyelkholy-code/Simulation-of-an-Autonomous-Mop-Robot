@@ -1,5 +1,4 @@
 import pygame
-import sys
 
 WIDTH, HEIGHT = 700, 700
 ROWS, COLS = 25, 25 
@@ -127,3 +126,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
