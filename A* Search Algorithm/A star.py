@@ -1,5 +1,4 @@
 import pygame
-import sys
 import heapq
 
 WIDTH, HEIGHT = 700, 700
@@ -125,4 +124,5 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
+
     main()
